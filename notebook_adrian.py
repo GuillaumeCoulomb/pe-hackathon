@@ -18,9 +18,19 @@ import geopandas as gpd
 import geodatasets
 import pandas as pd
 import matplotlib.pyplot as plt
+from shapely.geometry import Point
+import numpy as np
+
+from scipy import ndimage
+
+import matplotlib.pylab as pylab
+import matplotlib.pyplot as plt
+
 
 # %%
 df = pd.read_csv("earthquakes.csv", index_col='ID')
+
+# %%
 
 # %%
 
@@ -48,6 +58,5 @@ plt.show()
 # %%
 def map(longitude, latitude):
     world = gpd.read_file(geodatasets.get_path('naturalearth.land'))
-
 
 # %%
