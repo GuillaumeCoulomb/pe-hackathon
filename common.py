@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pylab as pylab
 from shapely.geometry import Point
 from scipy import ndimage
+from PIL import Image
 
 df = pd.read_csv('earthquakes.csv')
 df.set_index('ID', inplace=True)
@@ -53,7 +54,7 @@ def magnitude(df):
 magnitude(df_propre)
 
 
-def magnitude(df):
+def zoom_japon(df):
     world = gpd.read_file(geodatasets.get_path("naturalearth.land"))
     world.plot(color='white', edgecolor='black')
     plt.scatter(df[(df.Magnitude < 6) & (df.Magnitude >=5)].Longitude, df[(df.Magnitude < 6) & (df.Magnitude >=5)].Latitude, s=0.5, color='b')
@@ -62,10 +63,14 @@ def magnitude(df):
     plt.scatter(df[(df.Magnitude < 10) & (df.Magnitude >=8)].Longitude, df[(df.Magnitude < 10) & (df.Magnitude >=8)].Latitude, s=5, color='red')
     plt.xlim(-180, 180)
     plt.ylim(-90, 90)
-    plt.show()
+    plt.savefig("monde.png")
+    im = Image.open("monde.png", "r")
+    left = 450
+    top = 120
+    right = 575
+    bottom = 250
+    im2 = im.crop((left, top, right, bottom))
+    im2.show()
 
 
-magnitude(df_propre)
-
-
-def 
+zoom_japon(df)

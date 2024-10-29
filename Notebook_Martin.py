@@ -18,6 +18,7 @@ import geopandas as gpd
 import pandas as pd
 import matplotlib.pyplot as plt
 import geodatasets
+from PIL import Image
 
 # %%
 df = pd.read_csv('earthquakes.csv')
@@ -43,3 +44,31 @@ plt.scatter(df[(df.Magnitude < 10) & (df.Magnitude >=8)].Longitude, df[(df.Magni
 plt.xlim(-180, 180)
 plt.ylim(-90, 90)
 plt.show()
+
+# %%
+world = gpd.read_file(geodatasets.get_path("naturalearth.land"))
+world.plot(color='white', edgecolor='black')
+plt.scatter(df[(df.Magnitude < 6) & (df.Magnitude >=5)].Longitude, df[(df.Magnitude < 6) & (df.Magnitude >=5)].Latitude, s=0.5, color='b')
+plt.scatter(df[(df.Magnitude < 7) & (df.Magnitude >=6)].Longitude, df[(df.Magnitude < 7) & (df.Magnitude >=6)].Latitude, s=1, color='g')
+plt.scatter(df[(df.Magnitude < 8) & (df.Magnitude >=7)].Longitude, df[(df.Magnitude < 8) & (df.Magnitude >=7)].Latitude, s=2.5, color='orange')
+plt.scatter(df[(df.Magnitude < 10) & (df.Magnitude >=8)].Longitude, df[(df.Magnitude < 10) & (df.Magnitude >=8)].Latitude, s=5, color='red')
+plt.xlim(-180, 180)
+plt.ylim(-90, 90)
+plt.show()
+
+
+# %%
+def evolution_japon(df):
+    world = gpd.read_file(geodatasets.get_path("naturalearth.land"))
+    world.plot(color='white', edgecolor='black')
+    plt.xlim(-180, 180)
+    plt.ylim(-90, 90)
+    plt.savefig("monde.png")
+    im = Image.open("monde.png", "r")
+    left = 450
+    top = 120
+    right = 575
+    bottom = 250
+    im2 = im.crop((left, top, right, bottom))
+    im2.show()
+evolution_japon(df)
