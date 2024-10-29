@@ -19,4 +19,4 @@ supression_donnees(df).head(5)
 
 
 
-
+plt.scater
