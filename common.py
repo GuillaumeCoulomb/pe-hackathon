@@ -51,3 +51,5 @@ def magnitude(df):
 magnitude(df_propre)
 
 
+
+
