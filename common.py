@@ -33,6 +33,7 @@ def map(longitude, latitude):
     plt.scatter(longitude, latitude, s=0.1, color='r')
     plt.xlim(-180,180)
     plt.ylim(-90,90)
+    plt.title('Activite sismique de 1965 à 2016')
     plt.show()
 
 
@@ -48,6 +49,7 @@ def magnitude(df):
     plt.scatter(df[(df.Magnitude < 10) & (df.Magnitude >=8)].Longitude, df[(df.Magnitude < 10) & (df.Magnitude >=8)].Latitude, s=5, color='red', alpha=0.5)
     plt.xlim(-180, 180)
     plt.ylim(-90, 90)
+    plt.title('Repartition des episodes sismiques en fonction de leur magnetude')
     plt.show()
 
 
@@ -104,6 +106,7 @@ def frequence(pts):
     plt.imshow(logheatmap, cmap=cmap, extent=extent)
     plt.colorbar()
     plt.gca().invert_yaxis()
+    plt.title('Gradient de l'activite sismique')
     plt.show()
 
 
