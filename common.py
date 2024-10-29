@@ -107,7 +107,7 @@ def frequence(pts):
     plt.show()
 
 
-frequence(df_propre[['Longitude', 'Latitude'])
+frequence(df_propre[['Longitude', 'Latitude']])
 
 # +
 df2=df[df.Type != 'Earthquake']
