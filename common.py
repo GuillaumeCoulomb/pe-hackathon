@@ -4,6 +4,10 @@ import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import geodatasets
+import numpy as np
+import matplotlib.pylab as pylab
+from shapely.geometry import Point
+from scipy import ndimage
 
 df = pd.read_csv('earthquakes.csv')
 df.set_index('ID', inplace=True)
@@ -21,6 +25,19 @@ def suppression_donnees(df):
 df_propre = suppression_donnees(df)
 
 
+def map(longitude, latitude):
+    """carte des tremblements de terre"""
+    world = gpd.read_file(geodatasets.get_path('naturalearth.land'))
+    world.plot(color='white', edgecolor='black')
+    plt.scatter(longitude, latitude, s=0.1, color='r')
+    plt.xlim(-180,180)
+    plt.ylim(-90,90)
+    plt.show()
+
+
+map(df_propre.Longitude, df_propre.Latitude)
+
+
 def magnitude(df):
     world = gpd.read_file(geodatasets.get_path("naturalearth.land"))
     world.plot(color='white', edgecolor='black')
@@ -34,3 +51,37 @@ def magnitude(df):
 
 
 magnitude(df_propre)
+
+
+def frequence(pts):
+    """prend en argument une dataframe, par exemple df[['Longitude', 'Latitude']]"""
+    d = pts['geometry'] = df.apply(lambda x: Point((float(x.Longitude), float(x.Latitude))), axis=1)
+    d = gpd.GeoDataFrame(pts, geometry='geometry')
+    bins=100
+    smoothing=1.5
+    cmap='hot_r'
+    
+    def getx(pt):
+        return pt.coords[0][0]
+
+    def gety(pt):
+        return pt.coords[0][1]
+
+    x = list(d.geometry.apply(getx))
+    y = list(d.geometry.apply(gety))
+    heatmap, xedges, yedges = np.histogram2d(y, x, bins=bins)
+    extent = [yedges[0], yedges[-1], xedges[-1], xedges[0]]
+
+    logheatmap = np.log(heatmap)
+    logheatmap[np.isneginf(logheatmap)] = 0
+    logheatmap = ndimage.filters.gaussian_filter(logheatmap, smoothing, mode='nearest')
+
+    world = gpd.read_file(geodatasets.get_path('naturalearth.land'))
+    world.plot(color='white', edgecolor='black')
+    plt.imshow(logheatmap, cmap=cmap, extent=extent)
+    plt.colorbar()
+    plt.gca().invert_yaxis()
+    plt.show()
+
+
+frequence(df[['Longitude', 'Latitude']])
