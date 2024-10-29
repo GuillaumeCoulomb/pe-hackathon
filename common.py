@@ -1,0 +1,1 @@
+# Ceci est le fichier commun avec nos fonctions
