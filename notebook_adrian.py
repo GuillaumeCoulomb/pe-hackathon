@@ -48,6 +48,6 @@ plt.show()
 # %%
 def map(longitude, latitude):
     world = gpd.read_file(geodatasets.get_path('naturalearth.land'))
-    
+
 
 # %%

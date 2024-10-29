@@ -1,6 +1,9 @@
 # Ceci est le fichier commun avec nos fonctions
 
-import pandas as pd
+import pandas as 
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import geodatasets
 
 df = pd.read_csv('earthquakes.csv')
 
